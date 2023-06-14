@@ -21,7 +21,7 @@ class Game:
         self.y_pos_bg = 0
 
         self.player = Spaceship()
-        # hacer una lista de muchos enemigos
+        # 
         self.enemy_manager = EnemyManager()
 
     def run(self):
