@@ -10,7 +10,7 @@ class EnemyManager:
             enemy.update(self.enemies)
 
     def add_enemy(self):
-        if len(self.enemies) < 20:
+        if len(self.enemies) < 5:
             enemy = Enemy()
             self.enemies.append(enemy)
 
