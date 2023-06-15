@@ -4,6 +4,8 @@ import random
 from pygame.sprite import Sprite
 from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, ENEMY_1
 
+form game.components.bullets.bullet import Bullet
+
 class Enemy(Sprite):
     # Posición inicial del enemigo en el eje Y
     Y_POS = 20
@@ -57,9 +59,10 @@ class Enemy(Sprite):
         if(self.index >= self.move_x_for):
             self.index = 0
 
-    def update(self, ships):
+    def update(self, ships, game):
         # Actualizar la posición del enemigo en cada fotograma
         self.rect.y += self.speed_y
+        self.shoot(game.bullet_manager)
 
         if self.mod_x == 'left':
             self.rect.x -= self.speed_x
@@ -71,6 +74,13 @@ class Enemy(Sprite):
         # Eliminar el enemigo del juego cuando llega al borde inferior de la pantalla
         if self.rect.y >= SCREEN_HEIGHT:
             ships.remove(self)
+
+    def shoot(self, bullet_manager):
+        current_time = pygame.time.get_ticks()
+        if self.shooting_time <= current_time:
+            bullet = Bullet(self)
+            bullet_manager.add(bullet)
+            self.shooting_time = random.randint(30, 50)
 
     def draw(self, screen):
         # Dibujar la imagen del enemigo en la pantalla
