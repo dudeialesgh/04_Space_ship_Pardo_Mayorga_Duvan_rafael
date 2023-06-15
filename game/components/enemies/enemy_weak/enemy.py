@@ -4,7 +4,7 @@ import random
 from pygame.sprite import Sprite
 from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, ENEMY_1
 
-form game.components.bullets.bullet import Bullet
+from game.components.bullets.bullet import Bullet
 
 class Enemy(Sprite):
     # Posición inicial del enemigo en el eje Y
@@ -79,7 +79,7 @@ class Enemy(Sprite):
         current_time = pygame.time.get_ticks()
         if self.shooting_time <= current_time:
             bullet = Bullet(self)
-            bullet_manager.add(bullet)
+            bullet_manager.add_bullet(bullet)
             self.shooting_time = random.randint(30, 50)
 
     def draw(self, screen):
