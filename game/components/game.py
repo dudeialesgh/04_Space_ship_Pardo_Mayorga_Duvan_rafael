@@ -5,7 +5,7 @@ from game.utils.constants import BG, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DE
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_weak.enemy_manager import EnemyManager
 
-from game.components.bullets.bullet import Bullet
+from game.components.bullets.bullet_manager import BulletManager
 
 class Game:
     def __init__(self):
@@ -24,7 +24,7 @@ class Game:
         self.player = Spaceship()
         # 
         self.enemy_manager = EnemyManager()
-        self.bullet_manager = bullet_manager()
+        self.bullet_manager = BulletManager()
     
 
     def run(self):
@@ -47,7 +47,7 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        self.enemy_manager.update()
+        self.enemy_manager.update(self)
         self.bullet_manager.update(self)
 
     def draw(self):
