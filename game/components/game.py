@@ -25,7 +25,6 @@ class Game:
         # 
         self.enemy_manager = EnemyManager()
         self.bullet_manager = BulletManager()
-    
 
     def run(self):
         self.playing = True
@@ -46,7 +45,7 @@ class Game:
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
+        self.player.update(user_input, self)
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
 
