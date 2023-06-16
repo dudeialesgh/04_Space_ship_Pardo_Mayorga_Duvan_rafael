@@ -29,7 +29,8 @@ class Game:
         self.bullet_manager = BulletManager()
         self.running = False
         self.score = 0
-        self.death_count=0
+        self.death_count = 0
+        self.best_score = 0
         self.menu = Menu('Press any key to start....',self.screen)
 
     def execute(self):
@@ -95,7 +96,7 @@ class Game:
         if self.death_count == 0:
             self.menu.draw(self.screen)
         else:
-            self.menu.update_message('Press any key to start again...')
+            self.menu.update_message(f'press any key to start again....\nthe best score is {self.best_score}\nyour death count is {self.death_count}\nyour score is {self.score}')
             self.menu.draw(self.screen)
 
         icon = pygame.transform.scale(ICON, (80,120))
@@ -105,8 +106,6 @@ class Game:
 
     def update_score(self):
         self.score += 1
-        if self.score > self.best_score:
-            self.best_score = self.score
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 30)
