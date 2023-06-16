@@ -15,6 +15,8 @@ class BulletManager:
                 self.enemy_bullets.remove(bullet)
                 game.playing = False
                 game.death_count += 1
+                if game.score > game.best_score:
+                    game.best_score = game.score
                 pygame.time.delay(1000)
                 break
         
@@ -26,6 +28,7 @@ class BulletManager:
                     game.enemy_manager.enemies.remove(enemy)
                     self.bullets.remove(bullet)
                     game.update_score()
+                    
                     
 
     def draw(self, screen):
