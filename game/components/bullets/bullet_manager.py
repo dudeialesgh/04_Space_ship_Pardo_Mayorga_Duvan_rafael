@@ -15,7 +15,8 @@ class BulletManager:
             if bullet.rect.colliderect(game.player.rect) and bullet.owner == 'enemy':
                 self.bullets.remove(bullet)
                 game.playing = False
-                pygame.time.delay(1000)
+                game.death_count += 1
+                pygame.time.delay(5000)
                 break
         
         for bullet in self.ally_bullets:
@@ -23,10 +24,10 @@ class BulletManager:
             # condicional para verificar que el bullet colisione con el enemigo
             for enemy in game.enemy_manager.enemies:
                 if bullet.rect.colliderect(enemy.rect) and bullet.owner == 'player':
-                    self.ally_bullets.remove(bullet)
                     game.enemy_manager.enemies.remove(enemy)
-                    break
-
+                    self.ally_bullets.remove(bullet)
+                    game.update_score()
+                    
 
     def draw(self, screen):
         for bullet in self.enemy_bullets:
