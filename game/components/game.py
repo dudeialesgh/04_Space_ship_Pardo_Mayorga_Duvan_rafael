@@ -45,8 +45,8 @@ class Game:
         self.score = 0
         self.playing = True
         while self.playing:
-            self.events()
             self.update()
+            self.events()
             self.draw()
 
     def events(self):
@@ -105,6 +105,8 @@ class Game:
 
     def update_score(self):
         self.score += 1
+        if self.score > self.best_score:
+            self.best_score = self.score
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 30)
