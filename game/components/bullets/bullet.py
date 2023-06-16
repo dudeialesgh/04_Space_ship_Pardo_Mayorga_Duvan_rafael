@@ -19,8 +19,6 @@ class Bullet(Sprite):
         self.rect.center = spaceship.rect.center
         self.owner =  spaceship.type
 
-
-
     def events(self):
         pass
 
