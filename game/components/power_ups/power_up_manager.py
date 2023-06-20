@@ -7,6 +7,7 @@ from game.utils.constants import SHIELD_TYPE, SHIELD, SPACESHIP_SHIELD, THUNDER_
 
 class PowerUpManager:
     def __init__(self):
+        # Inicializa la lista de power-ups y establece el tiempo de aparición y duración de los mismos
         self.power_ups = []
         self.when_appears = random.randint(5000,10000)
         self.duration = random.randint(3,5)
@@ -15,28 +16,34 @@ class PowerUpManager:
         # Genera un power-up aleatorio (escudo o aumento de velocidad)
         power_up_type = random.choice([Shield, SpeedPowerUp])
         power_up = power_up_type()
+        # Establece el tiempo de aparición del siguiente power-up
         self.when_appears += random.randint(5000, 10000)
+        # Agrega el power-up a la lista
         self.power_ups.append(power_up)
     
     def update(self, game):
-        # capturo el tiempo
+        # Captura el tiempo actual
         current_time = pygame.time.get_ticks()
-        # si el power up esta vacio y el tiempo actual es mayor al tiempo de aparicion
+        # Genera un power-up si la lista está vacía y ha pasado el tiempo de aparición
         if len(self.power_ups) == 0 and current_time >= self.when_appears:
             self.generate_power_up()
 
-        # itero en los power ups
+        # Actualiza cada power-up en la lista
         for power_up in self.power_ups:
             current_time = pygame.time.get_ticks()
-        if len(self.power_ups) == 0 and current_time >= self.when_appears:
-            self.generate_power_up()
+            # Genera un power-up si la lista está vacía y ha pasado el tiempo de aparición
+            if len(self.power_ups) == 0 and current_time >= self.when_appears:
+                self.generate_power_up()
 
-        for power_up in self.power_ups:
+            # Actualiza el power-up
             power_up.update(game.game_speed, self.power_ups)
 
+            # Verifica si el jugador ha colisionado con el power-up
             if game.player.rect.colliderect(power_up):
+                # Establece el tiempo de inicio del power-up
                 power_up.start_time = pygame.time.get_ticks()
 
+                # Aplica el power-up correspondiente al jugador
                 if isinstance(power_up, Shield):
                     game.player.power_up_type = SHIELD_TYPE
                     game.player.set_image((65, 75), SPACESHIP_SHIELD)
@@ -45,22 +52,22 @@ class PowerUpManager:
                     game.player.apply_speed_boost()
                     game.player.set_image((20, 30), SPACESHIP)
 
+                # Establece el tiempo de finalización del power-up
                 game.player.power_time_up = power_up.start_time + (self.duration * 1000)
+                # Elimina el power-up de la lista
                 self.power_ups.remove(power_up)
+                # Establece la bandera de power-up activo en el jugador
                 game.player.has_power_up = True
 
-
     def draw(self, screen):
-        # dibujamos iterando en los power ups
+        # Dibuja cada power-up en la lista
         for power_up in self.power_ups:
-            # ya el mismo se dibuja hacemos uso del metodo, enviando la pantalla
             power_up.draw(screen)
         
-    # reseteamos 
     def reset(self):
-        # capturamos el tiempo
+        # Captura el tiempo actual
         now = pygame.time.get_ticks()
-        # limpiamos la lista de power ups
+        # Limpia la lista de power-ups
         self.power_ups = []
-        # generamos nuevamente cuando se reinicie
+        # Genera el tiempo de aparición del siguiente power-up
         self.when_appears =  random.randint(5000,10000)
